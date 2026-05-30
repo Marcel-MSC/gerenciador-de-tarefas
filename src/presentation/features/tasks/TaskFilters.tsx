@@ -7,6 +7,7 @@ interface TaskFiltersProps {
   users: User[];
   value: TaskListParams;
   onChange: (params: TaskListParams) => void;
+  hideStatusFilter?: boolean;
 }
 
 const statusOptions = [
@@ -30,7 +31,7 @@ const sortOptions = [
   { value: 'priority_desc', label: 'Prioridade (maior primeiro)' },
 ];
 
-export function TaskFilters({ users, value, onChange }: TaskFiltersProps) {
+export function TaskFilters({ users, value, onChange, hideStatusFilter }: TaskFiltersProps) {
   const [search, setSearch] = useState(value.q ?? '');
 
   useEffect(() => {
@@ -59,19 +60,21 @@ export function TaskFilters({ users, value, onChange }: TaskFiltersProps) {
         onChange={(e) => setSearch(e.target.value)}
         data-testid="filter-search"
       />
-      <Select
-        label="Status"
-        options={statusOptions}
-        value={value.status ?? ''}
-        onChange={(e) =>
-          onChange({
-            ...value,
-            status: (e.target.value as TaskStatus) || undefined,
-            page: 1,
-          })
-        }
-        data-testid="filter-status"
-      />
+      {!hideStatusFilter && (
+        <Select
+          label="Status"
+          options={statusOptions}
+          value={value.status ?? ''}
+          onChange={(e) =>
+            onChange({
+              ...value,
+              status: (e.target.value as TaskStatus) || undefined,
+              page: 1,
+            })
+          }
+          data-testid="filter-status"
+        />
+      )}
       <Select
         label="Prioridade"
         options={priorityOptions}

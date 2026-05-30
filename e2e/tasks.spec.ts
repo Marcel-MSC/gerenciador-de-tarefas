@@ -38,4 +38,30 @@ test.describe('Task manager E2E', () => {
     await page.getByTestId('simulate-error').selectOption('tasks-list');
     await expect(page.getByTestId('error-state')).toBeVisible({ timeout: 10000 });
   });
+
+  test('switches to kanban and moves task between columns', async ({ page }) => {
+    await page.goto('/');
+    await expect(page.getByText(/Atualizar documentação da API/i)).toBeVisible();
+
+    await page.getByTestId('view-toggle-kanban').click();
+    await expect(page.getByTestId('task-kanban')).toBeVisible();
+
+    const pendingColumn = page.getByTestId('kanban-column-pending');
+    const inProgressColumn = page.getByTestId('kanban-column-in_progress');
+
+    await expect(pendingColumn.getByText('Atualizar documentação da API')).toBeVisible();
+
+    await page.evaluate(() => {
+      const card = document.querySelector('[data-testid="task-card-t3"]') as HTMLElement;
+      const column = document.querySelector('[data-testid="kanban-column-in_progress"]') as HTMLElement;
+      const dt = new DataTransfer();
+
+      card.dispatchEvent(new DragEvent('dragstart', { bubbles: true, dataTransfer: dt }));
+      column.dispatchEvent(new DragEvent('dragover', { bubbles: true, cancelable: true, dataTransfer: dt }));
+      column.dispatchEvent(new DragEvent('drop', { bubbles: true, cancelable: true, dataTransfer: dt }));
+    });
+
+    await expect(inProgressColumn.getByText('Atualizar documentação da API')).toBeVisible({ timeout: 10000 });
+    await expect(pendingColumn.getByText('Atualizar documentação da API')).not.toBeVisible();
+  });
 });

@@ -76,6 +76,7 @@ Para trocar o mock por API real: implemente `ITaskRepository` apontando para o b
 ## Funcionalidades
 
 - Listagem com paginação, loading, vazio e erro
+- Visualização Lista ou Kanban (drag-and-drop para alterar status)
 - Filtros: busca, status, prioridade, responsável, tag, ordenação
 - CRUD com validação (Zod + React Hook Form)
 - Confirmação antes de excluir

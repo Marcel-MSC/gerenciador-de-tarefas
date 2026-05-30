@@ -41,6 +41,12 @@ export function formatDate(iso?: string): string {
   return new Date(iso).toLocaleDateString('pt-BR');
 }
 
+export const KANBAN_COLUMN_ORDER: TaskStatus[] = [
+  'pending',
+  'in_progress',
+  'done',
+];
+
 export function parseTags(tags?: string): string[] | undefined {
   if (!tags?.trim()) return undefined;
   return tags

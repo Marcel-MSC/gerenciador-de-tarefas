@@ -1,3 +1,4 @@
+import type { DragEvent } from 'react';
 import type { Task, User } from '@/domain/entities';
 import { Badge } from '@/presentation/components/ui/Badge';
 import { Button } from '@/presentation/components/ui/Button';
@@ -10,18 +11,38 @@ import {
 interface TaskCardProps {
   task: Task;
   assignee?: User;
+  compact?: boolean;
+  draggable?: boolean;
+  dragging?: boolean;
   onEdit: (task: Task) => void;
   onDelete: (task: Task) => void;
+  onDragStart?: (task: Task, event: DragEvent<HTMLElement>) => void;
+  onDragEnd?: () => void;
 }
 
-export function TaskCard({ task, assignee, onEdit, onDelete }: TaskCardProps) {
+export function TaskCard({
+  task,
+  assignee,
+  compact = false,
+  draggable = false,
+  dragging = false,
+  onEdit,
+  onDelete,
+  onDragStart,
+  onDragEnd,
+}: TaskCardProps) {
   const status = STATUS_CONFIG[task.status];
   const priority = PRIORITY_CONFIG[task.priority];
 
   return (
     <article
-      className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-800"
+      className={`rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-800 ${
+        draggable ? 'cursor-grab active:cursor-grabbing' : ''
+      } ${dragging ? 'opacity-50' : ''}`}
       data-testid={`task-card-${task.id}`}
+      draggable={draggable}
+      onDragStart={onDragStart ? (e) => onDragStart(task, e) : undefined}
+      onDragEnd={onDragEnd}
     >
       <div className="flex flex-wrap items-start justify-between gap-2">
         <h3 className="text-base font-semibold text-slate-900 dark:text-white">
@@ -33,7 +54,7 @@ export function TaskCard({ task, assignee, onEdit, onDelete }: TaskCardProps) {
         </div>
       </div>
 
-      {task.description && (
+      {!compact && task.description && (
         <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
           {task.description}
         </p>

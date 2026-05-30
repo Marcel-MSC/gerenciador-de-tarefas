@@ -49,4 +49,25 @@ describe('HomePage integration', () => {
       expect(screen.getByText('Tarefa criada no teste')).toBeInTheDocument();
     });
   });
+
+  it('switches to kanban view and shows columns', async () => {
+    const user = userEvent.setup();
+    renderHome();
+
+    await waitFor(() => {
+      expect(screen.getByText(/Configurar ambiente/i)).toBeInTheDocument();
+    });
+
+    await user.click(screen.getByTestId('view-toggle-kanban'));
+
+    await waitFor(() => {
+      expect(screen.getByTestId('task-kanban')).toBeInTheDocument();
+      expect(screen.getByTestId('kanban-column-pending')).toBeInTheDocument();
+      expect(screen.getByTestId('kanban-column-in_progress')).toBeInTheDocument();
+      expect(screen.getByTestId('kanban-column-done')).toBeInTheDocument();
+    });
+
+    expect(screen.queryByTestId('filter-status')).not.toBeInTheDocument();
+    expect(screen.getByTestId('kanban-column-pending')).toHaveTextContent(/Atualizar documentação da API/i);
+  });
 });
