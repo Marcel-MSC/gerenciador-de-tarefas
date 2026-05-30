@@ -2,8 +2,8 @@ import type { ITaskStore } from '@/core/ports';
 import type { Task, User } from '@/domain/entities';
 import { seedTasks, seedUsers } from '@/infrastructure/msw/data/seed';
 
-const TASKS_KEY = 'idealgroup_tasks';
-const USERS_KEY = 'idealgroup_users';
+const TASKS_KEY = 'tasks';
+const USERS_KEY = 'users';
 
 export class LocalStorageTaskStore implements ITaskStore {
   getTasks(): Task[] {

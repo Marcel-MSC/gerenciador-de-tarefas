@@ -1,4 +1,4 @@
-# Gerenciador de Tarefas — Teste Ideal Group
+# Gerenciador de Tarefas
 
 Aplicação frontend para gerenciamento de tarefas em um workspace, com API mockada (MSW), arquitetura **SOLID** em camadas e execução via Docker.
 

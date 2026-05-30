@@ -33,7 +33,7 @@ const defaultParams: TaskListParams = {
 
 function getInitialParams(): TaskListParams {
   if (typeof window === 'undefined') return defaultParams;
-  const stored = localStorage.getItem('idealgroup_task_view');
+  const stored = localStorage.getItem('task_view');
   if (stored === 'kanban') {
     return { ...defaultParams, limit: 100 };
   }

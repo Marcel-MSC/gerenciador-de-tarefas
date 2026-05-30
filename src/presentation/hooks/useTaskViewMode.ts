@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 export type TaskViewMode = 'list' | 'kanban';
 
-const VIEW_KEY = 'idealgroup_task_view';
+const VIEW_KEY = 'task_view';
 
 export function useTaskViewMode() {
   const [viewMode, setViewModeState] = useState<TaskViewMode>(() => {

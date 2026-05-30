@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const THEME_KEY = 'idealgroup_theme';
+const THEME_KEY = 'theme';
 
 export function useTheme() {
   const [dark, setDark] = useState(() => {
