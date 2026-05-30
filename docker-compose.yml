@@ -1,0 +1,7 @@
+services:
+  web:
+    build: .
+    ports:
+      - "8080:80"
+    environment:
+      - VITE_ENABLE_MSW=true
